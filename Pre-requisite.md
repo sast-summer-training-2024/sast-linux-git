@@ -41,3 +41,11 @@
 你需要一个现代的 IDE. [__VSCode__](https://code.visualstudio.com/) 是一个中规中矩的选择. 但考虑到学校有 JetBrains IDE 的正版教育版授权, 你可以参考 [JetBrains 系列软件安装指南](https://software.tsinghua.edu.cn/JetBrains/JetBrainsSeriesSoftwareInstallationGuide.pdf) 进行安装; 其他同学可以申请自己学校的 JetBrains 授权.
 
 如果你习惯使用 Vim / Notepad 进行开发, 你的境界已经超脱了这个课程的范畴 (雾). 但如果你的开发方式停留在 CodeBlocks / DevCpp, 我建议转而使用现代的 IDE: 一款优秀的 IDE 能够显著提高你的开发效率, 这也是我希望在课程中传递的中心观点之一.
+
+### Learning Materials
+
+在之前的暑培 / 基础技能培训中, 已经有很多学长细致地讲解过 Linux / Git 的使用. 为了避免同质化与节约时间, 我将这些材料放在这里, 辅助你进行学习:
+
+- 2023 年暑培 Linux / Git: [sast2023-linux-git](https://github.com/sast-summer-training-2023/sast2023-linux-git); 鱼大用非常详细的讲义 [handout.pdf](https://github.com/sast-summer-training-2023/sast2023-linux-git/blob/main/handout.pdf) 讲解了 Linux. 反正比我懂得多就是. 同时, 鱼大在讲义里面提供了一个 Docker 镜像, 可以去玩玩.
+
+- 2023 年基础技能培训 PPT: Fuyuki 学长的 Git PPT, 事无巨细, 含有大量图片, 讲解了 Git 分支管理与命令行的大量命令. _(TODO)_
