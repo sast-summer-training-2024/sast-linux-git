@@ -181,3 +181,113 @@ ssh -J ajax@59.66.xxx.xxx ajax@192.168.1.2
   这会把本地的 `localhost:8000` 映射到远程的 `(localhost:)9000`, 这时远程服务器访问 `localhost:8000` 会访问到本地的服务.
 
 常用的 SSH 命令就这么些, 在连接一些古老设备 / 嵌入式设备时, 你可能遇到各种报错. 把报错复制粘贴到 Google 里面就能得到解决方案.
+
+### Task
+
+在登录之后, 一切都像本地一样. 唯一的问题是: 当我需要在服务器上面跑一些东西, 又不想一直挂着在线, 怎么办? 当我网络不太稳定, 怎么保证跑的程序不会因为我掉线而停止? 如果我希望并发开两个程序, 我一定要再开一个 ssh 嘛?
+
+#### Job Management
+
+现代的 Shell 都有 Job 管理的功能: Shell 可以有最多一个前台任务和多个后台任务. 键盘 (stdin) 只能与前台任务交互, 但是所有的任务共享屏幕输出 (stdout).
+
+- 你可以在命令后面加上 `&` 来让命令在后台运行:
+
+  ```sh
+  ping google.com &
+  ```
+
+  然后你的屏幕上就会被一大坨 `ping` 的输出刷屏了 (大雾)
+
+- 你可以对前台任务使用 `Ctrl + Z` 来暂停任务, 然后使用 `bg` 命令将任务放到后台; 也可以使用 `fg %t` 命令将任务 t 放到前台:
+
+  ```sh
+  $ ping google.com
+  PING google.com (142.251.220.110) 56(84) bytes of data.
+  64 bytes from hkg07s52-in-f14.1e100.net (142.251.220.110): icmp_seq=1 ttl=53 time=38.9 ms
+  64 bytes from hkg07s52-in-f14.1e100.net (142.251.220.110): icmp_seq=2 ttl=53 time=39.2 ms
+  64 bytes from hkg07s52-in-f14.1e100.net (142.251.220.110): icmp_seq=3 ttl=53 time=39.2 ms
+  # Ctrl + Z
+  fish: Job 1, 'ping google.com' has stopped
+  $ bg %1
+  Send job 1 “ping google.com” to background
+  $ 64 bytes from hkg07s52-in-f14.1e100.net (142.251.220.110): icmp_seq=4 ttl=53 time=38.9 ms # 这里可以看到 ping 继续运行
+  64 bytes from hkg07s52-in-f14.1e100.net (142.251.220.110): icmp_seq=5 ttl=53 time=38.7 ms
+  64 bytes from hkg07s52-in-f14.1e100.net (142.251.220.110): icmp_seq=6 ttl=53 time=39.1 ms
+  fg %1
+  Send job 1, “ping google.com” to foreground
+  64 bytes from hkg07s52-in-f14.1e100.net (142.251.220.110): icmp_seq=8 ttl=53 time=39.3 ms
+  # Ctrl + C
+  --- google.com ping statistics ---
+  8 packets transmitted, 8 received, 0% packet loss, time 9641ms
+  rtt min/avg/max/mdev = 38.700/39.040/39.260/0.183 ms
+  ```
+
+- 你可以使用 `jobs` 命令查看当前的任务:
+
+  ```sh
+  $ jobs
+  Job     Group   CPU     State   Command
+  1       2343736 0%      stopped vim /
+  ```
+
+需要注意的是, 某些任务可能不能使用 `Ctrl + Z` 暂停, 会出现不可预料的问题; 某些任务无法使用 `bg` 命令放到后台, 如 vim.
+
+```sh
+$ bg %1
+Send job 1 “vim /” to background
+$ fish: Job 1, 'vim /' has stopped
+```
+
+#### SIGHUP
+
+当你退出 SSH 时, 你的 Shell 会收到一个 SIGHUP 信号. Shell 将此信号传递给所有子进程, 通知它们父进程已经退出, 并且它们应该退出. (于是跑了两个小时的程序就没啦~) 此时有两种解决方法:
+
+- 使用 `nohup` 命令. (这要求你在开始程序之前就想好) `man nohup`.
+- 使用 `disown` 命令. (这要求当前程序能正常暂停并放在后台) `man disown`
+
+#### Terminal Multiplexer
+
+虽然前面的 Job 管理很好, 但是还是不太好. 比如: 你没法再次 Attach 到 nohup 的任务上, 没法 interactive 地输入输出等.
+
+因此, 在此隆重推出 `tmux` 和 `screen` 这两个 Terminal Multiplexer. 它们可以让你在一个 SSH 连接上开多个 Terminal, 并且可以在断开连接后重新 Attach 到之前的 Terminal 上.
+
+这两个工具的想法比较类似: 它有多个已经 Detach 的 `Session`; 每个 `Session` 可以有多个 `Window`; 每个 `Window` 可以有多个 `Pane`.
+
+我用 Tmux 比较多, 因此这里只讲 Tmux (具体请 `man tmux`).
+
+- `tmux new -s session_name`: 新建一个名为 `session_name` 的 Session.
+- `tmux attach -t session_name`: Attach 到名为 `session_name` 的 Session.
+
+在 Session 中:
+
+- `Ctrl + B, C`: 新建一个 Window, 不过我不太用.
+- `Ctrl + B, 1-9`: 切换到 Window 1-9.
+- `Ctrl + B, D`: Detach 当前 Session.
+- `Ctrl + B, %`: 横向分割当前 Pane.
+- `Ctrl + B, "`: 纵向分割当前 Pane.
+- `Ctrl + B, ArrowKey`: 切换 Pane.
+- `Ctrl + B, Ctrl + ArrowKey`: 调整 Pane 大小.
+
+...
+
+建议 **开 SSH 就开一个 tmux**, 这样就免去了大量掉线烦恼.
+
+### VSCode SSH
+
+大家用的最多的远程开发工具应该是 VSCode 的 SSH 插件. 这个插件可以让你在本地 VSCode 中编辑远程服务器上的文件.
+
+#### 安装 VSCode SSH
+
+![Remote SSH](./vscode_remote_ssh.png)
+
+我印象里默认是装好的?
+
+#### 打开 VSCode SSH
+
+左下角的 `Open a Remote Window` 点一下, 选 `Connect to Host...`. **推荐使用公钥登录, 不然你会不停输密码.**
+
+然后输进去 `[user@]host[:port]` (**推荐写 SSH Config**)
+
+如果需要多级跳板 / 代理, 请使用 SSH Config.
+
+VSCode 会配置自动端口映射, 也可以在 `PORTS` 选项手动配置.
