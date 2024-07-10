@@ -16,7 +16,7 @@
 
 所以:
 
-- __优先查找官方文档__, 包括 __官方网站的文档__, __Linux Manual (man)__, __官方 Repo 与 Issue__;
+- __优先查找官方文档__, 包括 __官方网站的文档__, __Linux Manual (man)__, __官方 Repo 与 Issue__, __Help Page (-h / --help / -?)__ 等;
 - __其次查找官方论坛和 Stack Overflow 等论坛__;
 - __其次找论坛和博客, 当然找学长不失为好方法__;
 
