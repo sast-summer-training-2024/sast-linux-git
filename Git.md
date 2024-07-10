@@ -85,3 +85,25 @@ VSCode 的 Git 支持由 Git 插件提供; GitLens 插件包含更多的功能 (
 
 </div>
 </div>
+
+在开启 GitLens 插件之后, 你可以在每行代码的右边看到这一行代码的最近修改者, 最近修改时间, 以及这一行代码的历史. (比如下图就是前面几行的历史). 现在遇到奇怪的 Bug, 你就知道是谁写的啦 (然后就可以去问他, '这么写有什么特殊的意义和考虑嘛?')
+
+![Gitlens Blame](./git_gitlens_blame.png)
+
+### JetBrains IDE 的 Git 支持
+
+JetBrains IDE 原生支持 Git. 这些 IDE 除了贵以外没有什么缺点 (但是你清有免费学生版, 所以不用白不用).
+
+![JetBrains Git](./git_jb.png)
+
+这张图是我们软工大作业后端的开发环境. 左侧的栏目是 Git (VCS) 的版本控制栏目, 可以看到当前暂存区状态等信息; 下面的栏目是 Git 信息, 包括了 Git Remote 和 Branch 信息; Git Log; 选中 Commit 可以看到 Commit 的详细信息. 后端的版本几乎是线性的, 但是软工要求不能直接在 `master` 分支上开发. _(用了什么合并策略?)_
+
+![JetBrains Git Blame](./git_jb_blame.png)
+
+这张图是我们软工前端的 UI 设计 (全都红了是因为这个项目的依赖全都没装). 点击函数右侧的 `Bill +2` 可以呼出 Git Blame, 看到每一行代码的修改历史.
+
+比起后端代码 (几乎全是我写的), 前端代码充分体现了赶 DDL 时候多人 ~~混乱~~ 协作开发的特征: 多条分支并行开发, 多个 PR 同时进行, _(用了什么合并策略?)_, 有条不紊解决了多个 Bug, 完成了项目的收尾工作.
+
+![JetBrains Git Diff](./git_jb_diff_viewer.png)
+
+这张图是 JetBrains IDE 的 Diff Viewer. 你可以看到两个 Commit 之间的更改, 以及更改的详细信息. 在翻找 Bug 的可能成因 / 解决 Merge Conflict 时, 这个功能可以说是一把利刃.
