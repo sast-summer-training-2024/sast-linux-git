@@ -107,3 +107,59 @@ JetBrains IDE 原生支持 Git. 这些 IDE 除了贵以外没有什么缺点 (�
 ![JetBrains Git Diff](./git_jb_diff_viewer.png)
 
 这张图是 JetBrains IDE 的 Diff Viewer. 你可以看到两个 Commit 之间的更改, 以及更改的详细信息. 在翻找 Bug 的可能成因 / 解决 Merge Conflict 时, 这个功能可以说是一把利刃.
+
+### Cherry-Pick: 如何应用在其它分支上的更改
+
+讲这件事的起因是这样的:
+
+![Splitting Features / Fixes](./git_separate_feats.png)
+
+不管是软工大作业还是其它的开源项目, 每一个 PR 都期望只包含一个功能的更改. 但是怎么定义 _一个功能_ 就每个人有不同的理解了. 比如我认为这两个功能是关联的, 可以扔一块; 但是另一个人认为这两个功能是独立的, 应该分开.
+
+这时候就可能出现这样的情况, 你需要把一个 Branch 的改动分成两个 Branch 完成 (当然这也常见于软工课三个小时写出来 1500 行一个 PR 但你想 Squash Merge 的时候). 推荐的方法是使用 Cherry-Pick 方法, 把不同类型的 Commit 拆开到不同的 Branch 上面.
+
+在 JetBrains IDE 里面, 这件事情格外简单. 首先我们 Switch 到对应的分支上, 在 Log 里面找到我们想要的 Commit (或里面想要的更改), 右键选择 `Cherry-Pick Selected Changes`, 然后就可以把这个更改应用到当前分支上了. 如果有冲突, 也可以在 Conflict Resolver 里面解决.
+
+### Conflicts: 解决冲突的一般方法
+
+我们在多人协作合并 PR 的时候难免会遇到冲突. 在遇到冲突的时候相信大多数人都会很头疼 (当然我也是), 但是冲突又是不可避免的事情. 当然, 你可以在小群里发, _"这会大家都别写, 我写, 谢谢你们请你们喝奶茶"_, 但是如果是一个 15 人的项目, 这就会显著拖慢项目的进度了.
+
+首先你需要记住一点: **不要盲目合并!!! 不要盲目 Accept Theirs!!! 尤其不要盲目 Accept Yours!!!**
+
+以及, **不要 Force Push!!! 确认线上版本正确后再删本地分支!!!** 不然就会出现这样的情况:
+
+<div style="display: flex; justify-content: center;">
+<div style="width: 40%">
+
+![Merged Early and Deleted Branch](./git_early_merge.jpg)
+
+</div>
+</div>
+
+在 Merge 的时候, 基本的策略如下:
+
+- 如果你的更改不多, 可以考虑 `Accept Theirs`, 然后手动添加你的更改
+
+- 如果你确信你的更改会完全覆盖他们的更改 (比如你把某一个函数整个 _删掉_ 了 (注意不是挪了个地方)), 那么可以考虑 `Accept Yours`
+
+- 在大多数情况下, 你需要彻底搞清楚你干了什么, 他们干了什么, 然后手动解决冲突
+
+在 JetBrains IDE 里面, 当出现冲突的时候, Git 栏目里面会显示冲突的文件, 点击 `Resolve` 会进入冲突解决界面.
+
+![Conflict when rebasing](./git_conflict.png)
+
+在这个界面中, **左侧是现有的更改, 右侧是希望合并的更改, 中间是两者的最近共同祖先**, 蓝色和绿色的部分是没有冲突的部分, 红色的部分是出现冲突, 需要手动解决的部分. 你可以选择 `Accept Theirs` (点一下右边的箭头) 或 `Accept Yours` (点左边的) 来解决冲突, 也可以手动修改冲突的部分.
+
+![Confilct Resolver](./git_conflict_resolving_page.png)
+
+一般来说, 先点一下整个页面左上角的 "Apply All Non-Conflicting Changes" 可以把没有冲突的部分合并掉, 然后再手动解决冲突的部分. **这很重要, 否则只有冲突的部分被解决了, 剩下的全丢了 (x**
+
+然后我们看冲突的部分: 在这个例子中, 我添加了 SM2 算法支持, 而主线上添加了 2FA 支持, 这两个更改相互独立, 但是修改发生在了同一个地方. 因此应该保留两者的更改.
+
+由于我这边的更改不多, 我选择先 `Accept Theirs`, 然后在最终结果中添加我的更改.
+
+![Accept Theirs](./git_conflict_accept_theirs.png)
+
+![Resolved](./git_conflict_resolved.png)
+
+全部 Resolve 之后, **务必确认程序按照预期运行**, 然后运行可能的格式更正脚本 / 代码风格检查脚本, 最后再提交.
