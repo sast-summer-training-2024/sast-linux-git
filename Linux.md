@@ -1,6 +1,6 @@
-## Linux
+# Linux
 
-### 卷首语
+## 卷首语
 
 从个人偏好与经验来讲, 我推荐大家直接使用原生的 Linux / Mac 进行开发. 原因如下:
 
@@ -19,7 +19,7 @@ Linux 上面的东西很多, 还是那几句话, **记得查 man, 记得查官�
 
 由于学长已经讲了很多了, 我就先提纲挈领, 把我认为有必要讲的东西简单说说.
 
-### 发行版
+## 发行版
 
 狭义上的 "Linux" 其实就是一个内核. 上面由各个社区造了很多轮子, 很多轮子组合在一起产生了很多 _"发行版"_. [DistroWatch](https://distrowatch.com/) 上面有很多发行版的排名, 你可以去看看. Linux 的每一个发行版都有自己的特点, 可以按需取用 (也可以 Distro-Hop).
 
@@ -34,17 +34,17 @@ Linux 上面的东西很多, 还是那几句话, **记得查 man, 记得查官�
 - Fedora: Red Hat 的社区版, 听说是 "几乎所有的开发环境都能一键安装", 很省心的系统.
 - Kali Linux: 专用于渗透测试的系统, 预装了大量的渗透测试工具. ~~俗话说, Kali 用得好, 牢饭吃到饱 (什么)~~
 
-### SSH
+## SSH
 
 我们接下来将直接讨论 Linux 远程使用的最常用手段: SSH. 这在下学期的 ICS 课程中将会用到, 在干乱七八糟事情的时候也总会用到.
 
-#### 什么是 SSH
+### 什么是 SSH
 
 Secure SHell, 是一种用于在不安全网络上 **安全访问远程计算机** 的协议. 它提供了一种加密的方法, 使得用户可以通过不安全的网络连接上安全地 **远程登录 (ssh) 和传输文件 (scp / sftp)**.
 
 SSH 提供了完整的 Linux Shell 支持, 且协议开源可信, 常用终端开源, 安全漏洞较少, 因此被广泛使用.
 
-#### SSH 的基本使用方法
+### SSH 的基本使用方法
 
 `man ssh`:
 
@@ -104,7 +104,7 @@ sftp example.com -P 22222 # Fail
 sftp -P 22222 example.com # OK, sftp 的端口号也是大写 P, 且端口号选项必须在文件名之前
 ```
 
-#### Pubkey Authentication
+### Pubkey Authentication
 
 现在我们基本解决了 _直接_ 连接问题. 接下来我们讨论一下认证问题.
 
@@ -124,7 +124,7 @@ SSH 的基本认证模式是密码认证. 但是现代 Linux 为了防止密码�
 
 - 手动编辑 `~/.ssh/authorized_keys` 文件, 将公钥复制进去. 记得复制全了. 记得这个文件的权限最好是 **600**, 即只有你自己能读写 (`chmod 600 ~/.ssh/authorized_keys`).
 
-#### SSH with Proxy / Jumping
+### SSH with Proxy / Jumping
 
 实际上我们经常遇到需要通过代理 / 多级连接才能连接到目标服务器的情况. 这时候我们可以使用 SSH 的 Proxy / Jumping 功能.
 
@@ -148,7 +148,7 @@ ssh -J ajax@59.66.xxx.xxx ajax@192.168.1.2
 
 即中间跳板的配置需要在 `~/.ssh/config` 中给出.
 
-#### SSH Tunneling
+### SSH Tunneling
 
 远程开发常常会遇到需要做端口映射的情况. 这时候我们可以使用 SSH Tunneling 功能. 考虑以下场景:
 
@@ -182,11 +182,11 @@ ssh -J ajax@59.66.xxx.xxx ajax@192.168.1.2
 
 常用的 SSH 命令就这么些, 在连接一些古老设备 / 嵌入式设备时, 你可能遇到各种报错. 把报错复制粘贴到 Google 里面就能得到解决方案.
 
-### Task
+## Task
 
 在登录之后, 一切都像本地一样. 唯一的问题是: 当我需要在服务器上面跑一些东西, 又不想一直挂着在线, 怎么办? 当我网络不太稳定, 怎么保证跑的程序不会因为我掉线而停止? 如果我希望并发开两个程序, 我一定要再开一个 ssh 嘛?
 
-#### Job Management
+### Job Management
 
 现代的 Shell 都有 Job 管理的功能: Shell 可以有最多一个前台任务和多个后台任务. 键盘 (stdin) 只能与前台任务交互, 但是所有的任务共享屏幕输出 (stdout).
 
@@ -238,14 +238,14 @@ Send job 1 “vim /” to background
 $ fish: Job 1, 'vim /' has stopped
 ```
 
-#### SIGHUP
+### SIGHUP
 
 当你退出 SSH 时, 你的 Shell 会收到一个 SIGHUP 信号. Shell 将此信号传递给所有子进程, 通知它们父进程已经退出, 并且它们应该退出. (于是跑了两个小时的程序就没啦~) 此时有两种解决方法:
 
 - 使用 `nohup` 命令. (这要求你在开始程序之前就想好) `man nohup`.
 - 使用 `disown` 命令. (这要求当前程序能正常暂停并放在后台) `man disown`
 
-#### Terminal Multiplexer
+### Terminal Multiplexer
 
 虽然前面的 Job 管理很好, 但是还是不太好. 比如: 你没法再次 Attach 到 nohup 的任务上, 没法 interactive 地输入输出等.
 
@@ -272,17 +272,17 @@ $ fish: Job 1, 'vim /' has stopped
 
 建议 **开 SSH 就开一个 tmux**, 这样就免去了大量掉线烦恼.
 
-### VSCode SSH
+## VSCode SSH
 
 大家用的最多的远程开发工具应该是 VSCode 的 SSH 插件. 这个插件可以让你在本地 VSCode 中编辑远程服务器上的文件.
 
-#### 安装 VSCode SSH
+### 安装 VSCode SSH
 
 ![Remote SSH](./vscode_remote_ssh.png)
 
 我印象里默认是装好的?
 
-#### 打开 VSCode SSH
+### 打开 VSCode SSH
 
 左下角的 `Open a Remote Window` 点一下, 选 `Connect to Host...`. **推荐使用公钥登录, 不然你会不停输密码.**
 

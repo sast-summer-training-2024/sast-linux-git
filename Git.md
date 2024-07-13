@@ -1,6 +1,6 @@
-## Git
+# Git
 
-### Intro
+## Intro
 
 为啥要用 Git? 首先, 你并不一定要用 Git, 或者任何的源码管理系统. 只要你:
 
@@ -14,7 +14,7 @@
 - 使用 Git Log / Git CherryPick, 你可以回滚更改, 也可以将某些更改应用到其他分支
 - 使用 Git Branch, 你可以在不同的分支上开发不同的功能, 多人协作, 互不干扰
 
-### 本地仓库
+## 本地仓库
 
 首先我们介绍 Git 的本地仓库结构.
 
@@ -28,7 +28,7 @@ Git 的所有东西都在 `.git` 目录下. 我们一般把 **最新的项目文
 
 提交之后, 你的 **更改 (Diff)** 会被记录到本地仓库中. 你可以使用 `git diff` 命令查看更改.
 
-### 分支管理
+## 分支管理
 
 Git 的分支管理是其最大的特色之一. 你可以在不同的分支上开发不同的功能, 互不干扰. 比如:
 
@@ -40,7 +40,7 @@ Git 的分支管理是其最大的特色之一. 你可以在不同的分支上�
 
 ![Merge](./git_merge.png)
 
-### 远程仓库
+## 远程仓库
 
 除了本地仓库, Git 还支持远程仓库. **远程仓库** 是一个网络上的仓库, 你可以从远程仓库拉取代码, 也可以将本地仓库的更改推送到远程仓库.
 
@@ -48,7 +48,7 @@ Git 的分支管理是其最大的特色之一. 你可以在不同的分支上�
 
 远程仓库的一般访问方式有两种, HTTPS 和 SSH. HTTPS 方式一般会要求输入邮箱和 **Personal Access Token (PAT)**, SSH 方式需要配置 SSH Key (详见 SSH 章节).
 
-### 远程仓库上的 PR 管理
+## 远程仓库上的 PR 管理
 
 以 Github 为例, 在远程仓库上, 你可以发起 **Pull Request (PR)**, 对 PR 进行评论 / 审查, 最终合并 PR 到 **目标分支**.
 
@@ -68,20 +68,20 @@ PR 有若干合并策略:
 
 - Squash: 将 PR 分支的所有更改合并为一个 Commit, 然后 Fast-Forward 合并.
 
-### VSCode 的 Git 支持
+## VSCode 的 Git 支持
 
 VSCode 的 Git 支持由 Git 插件提供; GitLens 插件包含更多的功能 (但是我没怎么用过).
 
 <div style="display: flex; flex-direction: row; justify-content: center;">
-<div style="display: flex; height: 600px; margin: 20px;">
+<div style="display: inline-block; margin: 10px;">
 
-![VSCode Git](./git_vscode_ext.png)
+<img alt="VSCode Git" src="./git_vscode_ext.png" />
 
 </div>
 
-<div style="display: flex; height: 600px; margin: 20px;">
+<div style="display: inline-block; margin: 10px;">
 
-![VSCode GitLens](./git_vscode_gitlens.png)
+<img alt="VSCode GitLens" src="./git_vscode_gitlens.png" />
 
 </div>
 </div>
@@ -90,7 +90,7 @@ VSCode 的 Git 支持由 Git 插件提供; GitLens 插件包含更多的功能 (
 
 ![Gitlens Blame](./git_gitlens_blame.png)
 
-### JetBrains IDE 的 Git 支持
+## JetBrains IDE 的 Git 支持
 
 JetBrains IDE 原生支持 Git. 这些 IDE 除了贵以外没有什么缺点 (但是你清有免费学生版, 所以不用白不用).
 
@@ -108,7 +108,7 @@ JetBrains IDE 原生支持 Git. 这些 IDE 除了贵以外没有什么缺点 (�
 
 这张图是 JetBrains IDE 的 Diff Viewer. 你可以看到两个 Commit 之间的更改, 以及更改的详细信息. 在翻找 Bug 的可能成因 / 解决 Merge Conflict 时, 这个功能可以说是一把利刃.
 
-### Cherry-Pick: 如何应用在其它分支上的更改
+## Cherry-Pick: 如何应用在其它分支上的更改
 
 讲这件事的起因是这样的:
 
@@ -120,7 +120,7 @@ JetBrains IDE 原生支持 Git. 这些 IDE 除了贵以外没有什么缺点 (�
 
 在 JetBrains IDE 里面, 这件事情格外简单. 首先我们 Switch 到对应的分支上, 在 Log 里面找到我们想要的 Commit (或里面想要的更改), 右键选择 `Cherry-Pick Selected Changes`, 然后就可以把这个更改应用到当前分支上了. 如果有冲突, 也可以在 Conflict Resolver 里面解决.
 
-### Conflicts: 解决冲突的一般方法
+## Conflicts: 解决冲突的一般方法
 
 我们在多人协作合并 PR 的时候难免会遇到冲突. 在遇到冲突的时候相信大多数人都会很头疼 (当然我也是), 但是冲突又是不可避免的事情. 当然, 你可以在小群里发, _"这会大家都别写, 我写, 谢谢你们请你们喝奶茶"_, 但是如果是一个 15 人的项目, 这就会显著拖慢项目的进度了.
 
@@ -131,7 +131,7 @@ JetBrains IDE 原生支持 Git. 这些 IDE 除了贵以外没有什么缺点 (�
 <div style="display: flex; justify-content: center;">
 <div style="width: 40%">
 
-![Merged Early and Deleted Branch](./git_early_merge.jpg)
+<img alt="Merged Early and Deleted Branch" src="./git_early_merge.jpg">
 
 </div>
 </div>
