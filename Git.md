@@ -75,13 +75,13 @@ VSCode 的 Git 支持由 Git 插件提供; GitLens 插件包含更多的功能 (
 <div style="display: flex; flex-direction: row; justify-content: center;">
 <div style="display: inline-block; margin: 10px;">
 
-<img alt="VSCode Git" src="./git_vscode_ext.png" />
+<img alt="VSCode Git" src="../git_vscode_ext.png" />
 
 </div>
 
 <div style="display: inline-block; margin: 10px;">
 
-<img alt="VSCode GitLens" src="./git_vscode_gitlens.png" />
+<img alt="VSCode GitLens" src="../git_vscode_gitlens.png" />
 
 </div>
 </div>
@@ -131,7 +131,7 @@ JetBrains IDE 原生支持 Git. 这些 IDE 除了贵以外没有什么缺点 (�
 <div style="display: flex; justify-content: center;">
 <div style="width: 40%">
 
-<img alt="Merged Early and Deleted Branch" src="./git_early_merge.jpg">
+<img alt="Merged Early and Deleted Branch" src="../git_early_merge.jpg">
 
 </div>
 </div>
