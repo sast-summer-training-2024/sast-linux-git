@@ -48,4 +48,4 @@
 
 - 2023 年暑培 Linux / Git: [sast2023-linux-git](https://github.com/sast-summer-training-2023/sast2023-linux-git); 鱼大用非常详细的讲义 [handout.pdf](https://github.com/sast-summer-training-2023/sast2023-linux-git/blob/main/handout.pdf) 讲解了 Linux. 反正比我懂得多就是. 同时, 鱼大在讲义里面提供了一个 Docker 镜像, 可以去玩玩.
 
-- 2023 年基础技能培训 PPT: Fuyuki 学长的 Git PPT, 事无巨细, 含有大量图片, 讲解了 Git 分支管理与命令行的大量命令. _(TODO)_
+- 2023 年基础技能培训 PPT: [Fuyuki 学长的 Git PPT](./2024春季%20第一次基础技能培训%20Linux%20Git.pptx), 事无巨细, 含有大量图片, 讲解了 Git 分支管理与命令行的大量命令.
