@@ -163,3 +163,8 @@ JetBrains IDE 原生支持 Git. 这些 IDE 除了贵以外没有什么缺点 (�
 ![Resolved](./git_conflict_resolved.png)
 
 全部 Resolve 之后, **务必确认程序按照预期运行**, 然后运行可能的格式更正脚本 / 代码风格检查脚本, 最后再提交.
+
+## 其它的学习方法
+
+- 使用 Help!
+- https://ohmygit.org/ 这是个游戏 (?) 感觉还挺有趣的
